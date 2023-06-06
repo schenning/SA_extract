@@ -9,7 +9,7 @@ c = 299792458 #Speed of light
 
 
 def read_dopplercomp_file(filename):
-    # Read tle-based predicted doppler pre-compensation file from qRadio and do a conversion from velocity to frequency  
+    # Read tle-based predicted doppler pre-compensation file from Radio and do a conversion from velocity to frequency  
     data = []
     with open(filename, 'r') as file:
         reader = csv.reader(file)
@@ -24,8 +24,6 @@ def read_dopplercomp_file(filename):
 def calculate_doppler_shift( v, f = 2053.5*10**6):
     # Calculate doppler shift from velocity
     return f * (v / c)
-
-
 
 
 def read_csv_file(filename):
@@ -43,10 +41,9 @@ def read_csv_file(filename):
     return data
 
 def merge(list1, list2):
- 
-    merged_list = [(list1[i], list2[i]) for i in range(0, len(list1))]
+    # Merge two lists into a corresponding list of tuples
+    return [(list1[i], list2[i]) for i in range(0, len(list1))]
      
-    return merged_list
 
 def find_max_aplitude_index(data_tuple):
     # Find the index of the sample in trace with highest aplitude. 
@@ -63,22 +60,17 @@ def find_max_aplitude_index(data_tuple):
             highest_index = i
 
     timestamp_str = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(timestamp))
-
-
     result_tuple = (highest_value, highest_index)
 
-    #print("Result tuple:", result_tuple)
     return result_tuple, timestamp
 
 # Usage example
 filename = 'AWS_doppler.csv'
 data = read_csv_file(filename)
 freq = range(69900000, 70500000 + 1000, 1000)
-
 res = ()
 f = []
 ts = []
-
 for row in data: 
     res= find_max_aplitude_index(row)
     first_tuple = res[0]
@@ -87,8 +79,6 @@ for row in data:
 
     ts.append(res[1])
     f.append(freq[idx]-70e6)
-
-    #print(res[1],freq[idx] - 70e6)
 
 """
 d = read_dopplercomp_file('AWSTEST_SG223.csv')
